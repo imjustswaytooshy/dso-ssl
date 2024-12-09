@@ -5,20 +5,20 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 
-# Function to update service StartupType if the service is running
+# Function to update service StartupType
 function Update-ServiceStartType {
     param (
         [string]$ServiceName,
         [string]$DesiredStartupType
     )
     
-    # Get the service status
-    $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
-    if ($service -and $service.Status -eq 'Running') {
-        Set-Service -Name $ServiceName -StartupType $DesiredStartupType
+    try {
+        # Use Set-Service to change the startup type
+        Set-Service -Name $ServiceName -StartupType $DesiredStartupType -ErrorAction Stop
         Write-Host "Service '$ServiceName' startup type set to '$DesiredStartupType'." -ForegroundColor Green
-    } else {
-        Write-Host "Service '$ServiceName' is not running. Skipping..." -ForegroundColor Yellow
+    }
+    catch {
+        Write-Host "Unable to set startup type for service '$ServiceName'. Error: $($_.Exception.Message)" -ForegroundColor Red
     }
 }
 
@@ -77,9 +77,11 @@ netsh advfirewall reset
 Write-Host "Enabling Windows Firewall for All Profiles..." -ForegroundColor Yellow
 netsh advfirewall set allprofiles state on
 
-# Disable and Re-enable Network Discovery (optional)
+# Disable and Re-enable Network Discovery
 Write-Host "Resetting Network Discovery Settings..." -ForegroundColor Yellow
 Update-ServiceStartType -ServiceName "fdPHost" -DesiredStartupType "Automatic"
 Update-ServiceStartType -ServiceName "fdResPub" -DesiredStartupType "Automatic"
 
 Write-Host "Network and firewall reset completed successfully!" -ForegroundColor Green
+
+Pause
