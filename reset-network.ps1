@@ -5,6 +5,23 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 
+# Function to update service StartupType if the service is running
+function Update-ServiceStartType {
+    param (
+        [string]$ServiceName,
+        [string]$DesiredStartupType
+    )
+    
+    # Get the service status
+    $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
+    if ($service -and $service.Status -eq 'Running') {
+        Set-Service -Name $ServiceName -StartupType $DesiredStartupType
+        Write-Host "Service '$ServiceName' startup type set to '$DesiredStartupType'." -ForegroundColor Green
+    } else {
+        Write-Host "Service '$ServiceName' is not running. Skipping..." -ForegroundColor Yellow
+    }
+}
+
 # Reset Internet Options to Default
 Write-Host "Resetting Internet Options to Default..." -ForegroundColor Yellow
 Invoke-Expression -Command "rundll32.exe inetcpl.cpl,ClearMyTracksByProcess 4351"
@@ -62,8 +79,7 @@ netsh advfirewall set allprofiles state on
 
 # Disable and Re-enable Network Discovery (optional)
 Write-Host "Resetting Network Discovery Settings..." -ForegroundColor Yellow
-(Get-Service fdPHost).StartType = 'Automatic'
-(Get-Service fdResPub).StartType = 'Automatic'
-Start-Service -Name fdPHost, fdResPub
+Update-ServiceStartType -ServiceName "fdPHost" -DesiredStartupType "Automatic"
+Update-ServiceStartType -ServiceName "fdResPub" -DesiredStartupType "Automatic"
 
 Write-Host "Network and firewall reset completed successfully!" -ForegroundColor Green
