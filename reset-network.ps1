@@ -77,11 +77,6 @@ netsh advfirewall reset
 Write-Host "Enabling Windows Firewall for All Profiles..." -ForegroundColor Yellow
 netsh advfirewall set allprofiles state on
 
-# Disable and Re-enable Network Discovery
-Write-Host "Resetting Network Discovery Settings..." -ForegroundColor Yellow
-Update-ServiceStartType -ServiceName "fdPHost" -DesiredStartupType "Automatic"
-Update-ServiceStartType -ServiceName "fdResPub" -DesiredStartupType "Automatic"
-
-Write-Host "Network and firewall reset completed successfully!" -ForegroundColor Green
+Write-Host "Network reset completed" -ForegroundColor Green
 
 Pause
