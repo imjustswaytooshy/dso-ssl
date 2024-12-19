@@ -8,6 +8,7 @@ Also you can clear network caches with this, if you have any issue.
 ## How It Works
 
 By installing these certificates, the script ensures secure connections, resolving handshake errors you might encounter while playing Drakensang Online.
+Clearing the cache and resetting settings to default might potentially resolve network issues.
 
 ## Installation
 
