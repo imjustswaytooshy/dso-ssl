@@ -1,8 +1,9 @@
-# DSO SSL Installer (`ssl.ps1`)
+# DSO Stuffs (`ssl.ps1`)
 
 ## Overview
 
 This PowerShell script fixes the handshake issue in **Drakensang Online** by installing Let's Encrypt root certificates (**ISRG Root X1** and **ISRG Root X2**) into your system's Trusted Root Certification Authorities store.
+Also you can clear network caches with this, if you have any issue.
 
 ## How It Works
 
