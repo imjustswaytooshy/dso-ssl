@@ -1,4 +1,4 @@
-# DSO Stuffs (`ssl.ps1`)
+# DSO Stuffs
 
 ## Overview
 
