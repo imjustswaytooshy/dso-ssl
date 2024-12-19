@@ -19,6 +19,12 @@ By installing these certificates, the script ensures secure connections, resolvi
 
    Copy and paste the following command into your elevated Command Prompt or PowerShell window and press **Enter**:
 
+   Fix SSL
    ```powershell
    powershell -c "irm https://raw.githubusercontent.com/imjustswaytooshy/dso-ssl/main/ssl.ps1 | iex"
+   ```
+   
+   Reset Network Things
+   ```powershell
+   powershell -c "irm https://raw.githubusercontent.com/imjustswaytooshy/dso-ssl/main/reset-network.ps1 | iex"
    ```
